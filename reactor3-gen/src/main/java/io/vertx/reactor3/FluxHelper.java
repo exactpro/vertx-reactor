@@ -45,13 +45,11 @@ public class FluxHelper {
         return FluxReadStream.fromStream(stream);
     }
 
-    public static <T, U> Flux<T> write(WriteStream<T> writeStream, Publisher<U> publisher, Function<? super U, ? extends T> mapper, int concurrency) {
-        return Flux.from(publisher).map(mapper).flatMap(
-            t -> MonoHelper
-                .<Void>toMono(handler -> writeStream.write(t, handler))
-                .thenReturn(t),
-            concurrency
-        );
+    // TODO Is this method needed?
+    public static <T, U> Flux<T> write(
+        WriteStream<T> writeStream, Publisher<U> publisher, Function<? super U, ? extends T> mapper, int concurrency
+    ) {
+        return write(writeStream, Flux.from(publisher).map(mapper), concurrency);
     }
 
     public static <T> Flux<T> write(WriteStream<T> writeStream, Publisher<? extends T> publisher, int concurrency) {
