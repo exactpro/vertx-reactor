@@ -1,3 +1,5 @@
+import com.exactpro.build.jarFile
+
 val vertxVersion: String by rootProject.ext
 
 val vertxSources: Configuration by configurations.creating
@@ -76,10 +78,4 @@ tasks {
         }
         into(buildDirectory.dir("vertx-core"))
     }
-}
-
-fun Configuration.jarFile(moduleName: String, classifier: String): File {
-    return this.resolvedConfiguration.resolvedArtifacts
-        .first { it.name == moduleName && it.classifier == classifier }
-        .file
 }
