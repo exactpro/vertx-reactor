@@ -9,10 +9,11 @@ plugins {
 }
 
 val vertxVersion: String by rootProject.ext
+val reactorVersion: String by rootProject.ext
 
-val vertxModuleName: String = name.removeSuffix("-reactor3")
 val vertxSources: Configuration by configurations.creating
 val buildDirectory: DirectoryProperty = project.layout.buildDirectory
+val vertxSourcesDirectory = buildDirectory.dir("generated/sources/vertx/java")
 
 sourceSets {
     main {
@@ -22,7 +23,7 @@ sourceSets {
     }
     register("codegen") {
         java {
-            srcDir(buildDirectory.dir("vertx/java"))
+            srcDir(vertxSourcesDirectory)
         }
     }
 }
@@ -30,14 +31,17 @@ sourceSets {
 dependencies {
     "codegenAnnotationProcessor"(project(":reactor3-gen"))
 
+    "codegenImplementation"(platform("io.vertx:vertx-dependencies:$vertxVersion"))
+    "codegenImplementation"(platform("io.projectreactor:reactor-bom:$reactorVersion"))
     "codegenImplementation"(project(":reactor3-gen", "default"))
     "codegenImplementation"("io.vertx:$vertxModuleName") {
         isTransitive = true
         exclude("io.vertx", vertxModuleName)
     }
 
+    implementation(platform("io.vertx:vertx-dependencies:$vertxVersion"))
+    implementation(platform("io.projectreactor:reactor-bom:$reactorVersion"))
     implementation(project(":reactor3-gen", "default"))
-//    implementation("io.projectreactor:reactor-core")
     implementation("io.vertx:$vertxModuleName")
 
     vertxSources("io.vertx:$vertxModuleName:$vertxVersion:sources")
@@ -53,14 +57,14 @@ tasks {
                 "io/vertx/groovy/**",
                 "io/vertx/reactivex/**",
                 "io/vertx/rxjava/**",
-                "examples/**",
+                "examples/override/**",
                 "io/vertx/ext/sql/**",
                 "io/vertx/ext/jdbc/**",
                 "io/vertx/servicediscovery/types/JDBCDataSource.java",
                 "io/vertx/servicediscovery/types/JDBCAuthentication.java",
             )
         }
-        into(buildDirectory.dir("vertx/java"))
+        into(vertxSourcesDirectory)
     }
 
     named<JavaCompile>("compileCodegenJava") {

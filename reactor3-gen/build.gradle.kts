@@ -1,6 +1,7 @@
 import com.exactpro.build.jarFile
 
 val vertxVersion: String by rootProject.ext
+val reactorVersion: String by rootProject.ext
 
 val vertxSources: Configuration by configurations.creating
 val buildDirectory = project.layout.buildDirectory
@@ -18,6 +19,8 @@ sourceSets {
 }
 
 dependencies {
+    implementation(platform("io.vertx:vertx-dependencies:$vertxVersion"))
+    implementation(platform("io.projectreactor:reactor-bom:$reactorVersion"))
     implementation("io.projectreactor:reactor-core")
     implementation("io.vertx:vertx-codegen")
     implementation("io.vertx:vertx-core")

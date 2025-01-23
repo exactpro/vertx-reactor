@@ -1,4 +1,4 @@
-import com.exactpro.build.jarFile
+import com.exactpro.build.vertxModuleName
 
 plugins {
     java
@@ -30,22 +30,12 @@ project.subprojects {
     }
 
     dependencies {
-        implementation(platform("io.vertx:vertx-dependencies:$vertxVersion"))
-        implementation(platform("io.projectreactor:reactor-bom:$reactorVersion"))
-
         constraints {
             testImplementation("junit:junit:4.13.1")
         }
     }
 
-    val vertxModuleName: String = name.removeSuffix("-reactor3")
-
     if (vertxModuleName in vertxModules) {
-        apply(plugin = "com.exactpro.build.reactor3-api")
-
-        dependencies {
-            "codegenImplementation"(platform("io.vertx:vertx-dependencies:$vertxVersion"))
-            "codegenImplementation"(platform("io.projectreactor:reactor-bom:$reactorVersion"))
-        }
+        apply(plugin = "com.exactpro.build.reactor3-bindings")
     }
 }
