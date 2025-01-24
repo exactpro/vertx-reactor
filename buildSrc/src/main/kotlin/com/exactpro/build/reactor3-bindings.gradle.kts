@@ -44,6 +44,9 @@ dependencies {
     implementation(project(":reactor3-gen", "default"))
     implementation("io.vertx:$vertxModuleName")
 
+    testImplementation("io.vertx:vertx-core::tests")
+    testImplementation("junit:junit")
+
     vertxSources("io.vertx:$vertxModuleName:$vertxVersion:sources")
 }
 
