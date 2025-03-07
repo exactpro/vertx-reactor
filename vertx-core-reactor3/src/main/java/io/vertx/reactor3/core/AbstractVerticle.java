@@ -4,7 +4,6 @@ import io.vertx.core.*;
 import io.vertx.core.Context;
 import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
-import io.vertx.reactor3.MonoHelper;
 import reactor.core.publisher.Mono;
 import reactor.util.annotation.NonNull;
 

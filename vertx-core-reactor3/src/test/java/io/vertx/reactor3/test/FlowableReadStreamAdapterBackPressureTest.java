@@ -4,7 +4,7 @@ import io.vertx.core.Handler;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.streams.ReadStream;
 import io.vertx.lang.rx.test.TestSubscriber;
-import io.vertx.reactor3.FluxHelper;
+import io.vertx.reactor3.core.FluxHelper;
 import io.vertx.lang.rx.test.ReadStreamAdapterBackPressureTest;
 import io.vertx.test.fakestream.FakeStream;
 import org.junit.Ignore;

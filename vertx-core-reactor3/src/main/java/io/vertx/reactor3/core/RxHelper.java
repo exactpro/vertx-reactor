@@ -1,13 +1,9 @@
-package io.vertx.reactor3;
+package io.vertx.reactor3.core;
 
 import io.vertx.core.Context;
 import io.vertx.core.Vertx;
 import io.vertx.core.WorkerExecutor;
-import io.vertx.core.streams.WriteStream;
-import org.reactivestreams.Subscriber;
 import reactor.core.scheduler.Scheduler;
-
-import java.util.function.Function;
 
 /**
  * @author <a href="mailto:julien@julienviet.com">Julien Viet</a>

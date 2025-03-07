@@ -1,4 +1,4 @@
-package io.vertx.reactor3;
+package io.vertx.reactor3.core;
 
 import io.vertx.core.Context;
 import io.vertx.core.Vertx;

@@ -2,7 +2,7 @@ package io.vertx.reactor3.test;
 
 import io.vertx.core.streams.ReadStream;
 import io.vertx.lang.rx.test.ReadStreamSubscriberStaticsTestBase;
-import io.vertx.reactor3.impl.ReadStreamSubscriber;
+import io.vertx.reactor3.core.impl.ReadStreamSubscriber;
 import reactor.core.publisher.Flux;
 
 import java.util.List;

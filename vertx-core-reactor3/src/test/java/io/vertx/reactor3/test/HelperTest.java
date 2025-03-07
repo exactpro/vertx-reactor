@@ -2,8 +2,8 @@ package io.vertx.reactor3.test;
 
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
-import io.vertx.reactor3.MonoHelper;
-import io.vertx.reactor3.FluxHelper;
+import io.vertx.reactor3.core.MonoHelper;
+import io.vertx.reactor3.core.FluxHelper;
 import io.vertx.test.core.VertxTestBase;
 import io.vertx.test.fakestream.FakeStream;
 import org.junit.Test;

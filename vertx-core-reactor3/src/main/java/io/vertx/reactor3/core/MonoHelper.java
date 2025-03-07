@@ -1,7 +1,7 @@
-package io.vertx.reactor3;
+package io.vertx.reactor3.core;
 
-import io.vertx.reactor3.impl.AsyncResultMono;
-import io.vertx.reactor3.impl.MonoUnmarshaller;
+import io.vertx.reactor3.core.impl.AsyncResultMono;
+import io.vertx.reactor3.core.impl.MonoUnmarshaller;
 import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.core.type.TypeReference;
 import io.vertx.core.AsyncResult;

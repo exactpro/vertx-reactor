@@ -1,8 +1,8 @@
-package io.vertx.reactor3;
+package io.vertx.reactor3.core;
 
-import io.vertx.reactor3.impl.FluxReadStream;
-import io.vertx.reactor3.impl.FluxUnmarshaller;
-import io.vertx.reactor3.impl.ReadStreamSubscriber;
+import io.vertx.reactor3.core.impl.FluxReadStream;
+import io.vertx.reactor3.core.impl.FluxUnmarshaller;
+import io.vertx.reactor3.core.impl.ReadStreamSubscriber;
 import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.core.type.TypeReference;
 import io.vertx.core.buffer.Buffer;

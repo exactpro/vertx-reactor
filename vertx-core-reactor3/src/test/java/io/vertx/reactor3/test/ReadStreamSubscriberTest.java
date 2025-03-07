@@ -1,6 +1,6 @@
 package io.vertx.reactor3.test;
 
-import io.vertx.reactor3.impl.ReadStreamSubscriber;
+import io.vertx.reactor3.core.impl.ReadStreamSubscriber;
 import io.vertx.lang.rx.test.ReadStreamSubscriberTestBase;
 import reactor.core.publisher.Sinks;
 

@@ -1,4 +1,4 @@
-package io.vertx.reactor3.impl;
+package io.vertx.reactor3.core.impl;
 
 import io.vertx.core.streams.ReadStream;
 import org.reactivestreams.Subscription;

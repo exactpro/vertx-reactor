@@ -1,4 +1,4 @@
-package io.vertx.reactor3.impl;
+package io.vertx.reactor3.core.impl;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.ObjectCodec;
