@@ -33,16 +33,23 @@ dependencies {
 
     "codegenImplementation"(platform("io.vertx:vertx-dependencies:$vertxVersion"))
     "codegenImplementation"(platform("io.projectreactor:reactor-bom:$reactorVersion"))
-    "codegenImplementation"(project(":reactor3-gen", "default"))
+    "codegenImplementation"("io.vertx:vertx-codegen")
+    "codegenImplementation"("io.vertx:vertx-docgen")
+    "codegenImplementation"("io.vertx:vertx-rx-gen:$vertxVersion")
     "codegenImplementation"("io.vertx:$vertxModuleName") {
         isTransitive = true
         exclude("io.vertx", vertxModuleName)
     }
+    if (project.name != "vertx-core-reactor3") {
+        "codegenImplementation"(project(":vertx-core-reactor3", "default"))
+    }
 
     implementation(platform("io.vertx:vertx-dependencies:$vertxVersion"))
     implementation(platform("io.projectreactor:reactor-bom:$reactorVersion"))
-    implementation(project(":reactor3-gen", "default"))
     implementation("io.vertx:$vertxModuleName")
+    if (project.name != "vertx-core-reactor3") {
+        implementation(project(":vertx-core-reactor3", "default"))
+    }
 
     testImplementation("io.vertx:vertx-core::tests")
     testImplementation("junit:junit")

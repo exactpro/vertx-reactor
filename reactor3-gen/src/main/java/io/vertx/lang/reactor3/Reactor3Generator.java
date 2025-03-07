@@ -275,6 +275,7 @@ class Reactor3Generator extends AbstractRxGenerator {
 
     @Override
     protected String genConvParam(TypeInfo type, MethodInfo method, String expr) {
+//        isSameType() is private in superclass
 //        if (isSameType(type, method)) {
 //            return expr;
 //        }
@@ -283,7 +284,8 @@ class Reactor3Generator extends AbstractRxGenerator {
                 ParameterizedTypeInfo parameterizedType = (ParameterizedTypeInfo) type;
                 String adapterFunction = "obj -> " + genConvParam(parameterizedType.getArg(0), method, "obj");
                 return "io.vertx.reactor3.impl.ReadStreamSubscriber.asReadStream(" + expr + ", " + adapterFunction + ").resume()";
-            } else if (type.getKind() == ClassKind.FUTURE) {
+            }
+            if (type.getKind() == ClassKind.FUTURE) {
                 TypeInfo futType = ((ParameterizedTypeInfo) type).getArg(0);
                 if (futType.getKind() == ClassKind.VOID) {
                     return "io.vertx.reactor3.MonoHelper.toFuture(" + expr + ")";

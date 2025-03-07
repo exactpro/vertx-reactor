@@ -1,4 +1,4 @@
-include("reactor3-gen")
+include("reactor3-gen", "vertx-core-reactor3")
 
 rootProject.name = "vertx-reactor"
 
