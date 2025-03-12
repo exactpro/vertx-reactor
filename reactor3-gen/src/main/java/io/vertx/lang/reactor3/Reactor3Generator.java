@@ -37,18 +37,17 @@ class Reactor3Generator extends AbstractRxGenerator {
 
         writer.println();
 
-        genToXXXAble(streamType, Flux.class, "flux", writer);
+        genToFlux(streamType, writer);
     }
 
-    private void genToXXXAble(TypeInfo streamType, Class<?> rxClass, String rxName, PrintWriter writer) {
-        String rxType = rxClass.getSimpleName();
+    private void genToFlux(TypeInfo streamType, PrintWriter writer) {
+        String rxType = Flux.class.getName();
+        String rxName = "flux";
         writer.print("  public synchronized ");
-        writer.print(rxClass.getName());
+        writer.print(rxType);
         writer.print("<");
         writer.print(genTranslatedTypeName(streamType));
-        writer.print("> to");
-        writer.print(rxType);
-        writer.println("() {");
+        writer.println("> toFlux() {");
 
         writer.print("    ");
         writer.print("if (");
@@ -67,10 +66,8 @@ class Reactor3Generator extends AbstractRxGenerator {
             writer.print("      ");
             writer.print(rxName);
             writer.print(" = ");
-            writer.print(rxType);
-            writer.print("Helper.to");
-            writer.print(rxType);
-            writer.println("(delegate, conv);");
+            writer.print("io.vertx.reactor3.core.impl.FluxReadStream.fromStream(delegate)");
+            writer.println(".map(conv);");
         } else if (streamType.isVariable()) {
             String typeVar = streamType.getSimpleName();
             writer.print("      Function<");
@@ -86,18 +83,13 @@ class Reactor3Generator extends AbstractRxGenerator {
             writer.print("      ");
             writer.print(rxName);
             writer.print(" = ");
-            writer.print(rxType);
-            writer.print("Helper.to");
-            writer.print(rxType);
-            writer.println("(delegate, conv);");
+            writer.print("io.vertx.reactor3.core.impl.FluxReadStream.fromStream(delegate)");
+            writer.println(".map(conv);");
         } else {
             writer.print("      ");
             writer.print(rxName);
             writer.print(" = ");
-            writer.print(rxType);
-            writer.print("Helper.to");
-            writer.print(rxType);
-            writer.println("(this.getDelegate());");
+            writer.println("io.vertx.reactor3.core.impl.FluxReadStream.fromStream(delegate);");
         }
 
         writer.println("    }");
@@ -117,13 +109,13 @@ class Reactor3Generator extends AbstractRxGenerator {
         writer.format("  public reactor.core.publisher.Flux<%1$s> write(org.reactivestreams.Publisher<? extends %1$s> publisher, int concurrency) {%n", genTranslatedTypeName(streamType));
         if (streamType.getKind() == ClassKind.API) {
             writer.format("    Function<%s, %s> conv = %s::getDelegate;%n", genTranslatedTypeName(streamType.getRaw()), streamType.getName(), genTranslatedTypeName(streamType));
-            writer.println("    return FluxHelper.write(getDelegate(), publisher, conv, concurrency);");
+            writer.println("    return FluxHelper.write(this, publisher, conv, concurrency);");
         } else if (streamType.isVariable()) {
             String typeVar = streamType.getSimpleName();
             writer.format("    Function<%s, %s> conv = (Function<%s, %s>) __typeArg_0.unwrap;%n", typeVar, typeVar, typeVar, typeVar);
-            writer.println("    return FluxHelper.write(getDelegate(), publisher, conv, concurrency);");
+            writer.println("    return FluxHelper.write(this, publisher, conv, concurrency);");
         } else {
-            writer.println("    return FluxHelper.write(getDelegate(), publisher, concurrency);");
+            writer.println("    return FluxHelper.write(this, publisher, concurrency);");
         }
         writer.println("  }");
         writer.println();
@@ -222,6 +214,7 @@ class Reactor3Generator extends AbstractRxGenerator {
         writer.println();
     }
 
+    @Override
     protected void genReadStream(List<? extends TypeParamInfo> typeParams, PrintWriter writer) {
         writer.print("  ");
         writer.print(Flux.class.getName());

@@ -27,12 +27,12 @@ public class FlowableReadStreamAdapterBackPressureTest extends ReadStreamAdapter
 
     @Override
     protected Flux<Buffer> toObservable(ReadStream<Buffer> stream, int maxBufferSize) {
-        return FluxHelper.toFlux(stream);
+        return FluxHelper.toFlux(io.vertx.reactor3.core.streams.ReadStream.newInstance(stream));
     }
 
     @Override
     protected Flux<Buffer> toObservable(ReadStream<Buffer> stream) {
-        return FluxHelper.toFlux(stream);
+        return FluxHelper.toFlux(io.vertx.reactor3.core.streams.ReadStream.newInstance(stream));
     }
 
     @Override

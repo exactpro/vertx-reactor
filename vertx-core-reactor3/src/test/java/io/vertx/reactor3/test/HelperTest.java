@@ -4,6 +4,7 @@ import io.vertx.core.Future;
 import io.vertx.core.Promise;
 import io.vertx.reactor3.core.MonoHelper;
 import io.vertx.reactor3.core.FluxHelper;
+import io.vertx.reactor3.core.streams.ReadStream;
 import io.vertx.test.core.VertxTestBase;
 import io.vertx.test.fakestream.FakeStream;
 import org.junit.Test;
@@ -78,9 +79,9 @@ public class HelperTest extends VertxTestBase {
         try {
             final Flux<Object> justMe = Flux.just("me");
             Hooks.onEachOperator(hookKey, p -> justMe);
-            Flux<String> flowable = FluxHelper.toFlux(stream);
+            Flux<String> flowable = FluxHelper.toFlux(ReadStream.newInstance(stream));
             assertSame(flowable, justMe);
-            Flux<String> flowableFn = FluxHelper.toFlux(stream, identity());
+            Flux<String> flowableFn = FluxHelper.toFlux(ReadStream.newInstance(stream), identity());
             assertSame(flowableFn, justMe);
 //            Flux<String> flowableSize = FluxHelper.toFlux(stream, 1);
 //            assertSame(flowableSize, justMe);
