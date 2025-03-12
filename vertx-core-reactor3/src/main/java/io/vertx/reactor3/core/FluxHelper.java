@@ -42,22 +42,6 @@ public class FluxHelper {
         return FluxReadStream.fromStream((io.vertx.core.streams.ReadStream<T>) stream.getDelegate());
     }
 
-    public static <T, U> Flux<U> write(
-        WriteStream<U> writeStream, Publisher<? extends U> publisher, Function<? super U, ? extends T> mapper, int concurrency
-    ) {
-        io.vertx.core.streams.WriteStream<T> delegateStream = writeStream.getDelegate();
-        return Flux.from(publisher).flatMap(
-            t -> MonoHelper
-                .<Void>toMono(handler -> delegateStream.write(mapper.apply(t), handler))
-                .thenReturn(t),
-            concurrency
-        );
-    }
-
-    public static <T> Flux<T> write(WriteStream<T> writeStream, Publisher<? extends T> publisher, int concurrency) {
-        return write(writeStream, publisher, Function.identity(), concurrency);
-    }
-
 //    public static <T> Function<Flux<Buffer>, Flux<T>> unmarshaller(Class<T> mappedType) {
 //        return new FluxUnmarshaller<>(Function.identity(), mappedType);
 //    }

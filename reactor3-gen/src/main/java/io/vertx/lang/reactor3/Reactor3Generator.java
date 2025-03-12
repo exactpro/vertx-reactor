@@ -105,18 +105,21 @@ class Reactor3Generator extends AbstractRxGenerator {
 //        writer.format("  private WriteStreamSubscriber<%s> subscriber;%n", genTranslatedTypeName(streamType));
 //        writer.println();
 //        genToXXXEr(streamType, "Subscriber", "subscriber", writer);
+        String translatedTypeName = genTranslatedTypeName(streamType);
 
-        writer.format("  public reactor.core.publisher.Flux<%1$s> write(org.reactivestreams.Publisher<? extends %1$s> publisher, int concurrency) {%n", genTranslatedTypeName(streamType));
-        if (streamType.getKind() == ClassKind.API) {
-            writer.format("    Function<%s, %s> conv = %s::getDelegate;%n", genTranslatedTypeName(streamType.getRaw()), streamType.getName(), genTranslatedTypeName(streamType));
-            writer.println("    return FluxHelper.write(this, publisher, conv, concurrency);");
-        } else if (streamType.isVariable()) {
-            String typeVar = streamType.getSimpleName();
-            writer.format("    Function<%s, %s> conv = (Function<%s, %s>) __typeArg_0.unwrap;%n", typeVar, typeVar, typeVar, typeVar);
-            writer.println("    return FluxHelper.write(this, publisher, conv, concurrency);");
-        } else {
-            writer.println("    return FluxHelper.write(this, publisher, concurrency);");
-        }
+        writer.format(
+            "  public io.vertx.reactor3.core.streams.StreamWriter<%1$s> createWriter() {%n",
+            translatedTypeName
+        );
+        writer.println("    return new io.vertx.reactor3.core.streams.StreamWriter<>(this);");
+        writer.println("  }");
+        writer.println();
+
+        writer.format(
+            "  public reactor.core.publisher.Mono<Void> write(org.reactivestreams.Publisher<? extends %1$s> publisher) {%n",
+            translatedTypeName
+        );
+        writer.println("    return io.vertx.reactor3.core.streams.StreamWriter.write(publisher, this);");
         writer.println("  }");
         writer.println();
     }
@@ -227,11 +230,15 @@ class Reactor3Generator extends AbstractRxGenerator {
     @Override
     protected void genWriteStream(List<? extends TypeParamInfo> typeParams, PrintWriter writer) {
         String typeArg = typeParams.get(0).getName();
-        writer.print("  reactor.core.publisher.Flux<");
-        writer.print(typeArg);
-        writer.print("> write(org.reactivestreams.Publisher<? extends ");
-        writer.print(typeArg);
-        writer.println("> publisher, int concurrency);");
+        writer.format(
+            "  io.vertx.reactor3.core.streams.StreamWriter<%1$s> createWriter();%n",
+            typeArg
+        );
+        writer.println();
+        writer.format(
+            "  reactor.core.publisher.Mono<Void> write(org.reactivestreams.Publisher<? extends %1$s> publisher);%n",
+            typeArg
+        );
         writer.println();
     }
 
