@@ -25,21 +25,21 @@ public class VerticleTest extends VertxTestBase {
 
     public static class StartVerticle extends AbstractVerticle {
         @Override
-        public @NonNull Mono<Void> rxStart() {
+        public @NonNull Mono<Void> reactiveStart() {
             return Mono.empty();
         }
     }
 
     public static class StartVerticleWithFailure extends AbstractVerticle {
         @Override
-        public @NonNull Mono<Void> rxStart() {
+        public @NonNull Mono<Void> reactiveStart() {
             throw err;
         }
     }
 
     public static class StartVerticleWithError extends AbstractVerticle {
         @Override
-        public @NonNull Mono<Void> rxStart() {
+        public @NonNull Mono<Void> reactiveStart() {
             return Mono.error(err);
         }
     }
@@ -102,21 +102,21 @@ public class VerticleTest extends VertxTestBase {
 
     public static class StopVerticle extends AbstractVerticle {
         @Override
-        public @NonNull Mono<Void> rxStop() {
+        public @NonNull Mono<Void> reactiveStop() {
             return Mono.empty();
         }
     }
 
     public static class StopVerticleWithFailure extends AbstractVerticle {
         @Override
-        public @NonNull Mono<Void> rxStop() {
+        public @NonNull Mono<Void> reactiveStop() {
             throw err;
         }
     }
 
     public static class StopVerticleWithError extends AbstractVerticle {
         @Override
-        public @NonNull Mono<Void> rxStop() {
+        public @NonNull Mono<Void> reactiveStop() {
             return Mono.error(err);
         }
     }

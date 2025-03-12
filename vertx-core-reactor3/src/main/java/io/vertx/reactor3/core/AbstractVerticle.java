@@ -20,18 +20,18 @@ public abstract class AbstractVerticle extends io.vertx.core.AbstractVerticle {
 
     @Override
     public final void start(Promise<Void> startFuture) {
-        Mono<Void> mono = rxStart();
+        Mono<Void> mono = reactiveStart();
         mono.subscribe(null, startFuture::fail, startFuture::complete);
     }
 
     /**
      * Override to return a {@code Mono} that will complete the deployment of this verticle.
      * <p/>
-     * Chain with super.rxStart() to execute start logic from the base class.
+     * Chain with super.reactiveStart() to execute start logic from the base class.
      *
      * @return mono that completes on the deployment of this verticle.
      */
-    public @NonNull Mono<Void> rxStart() {
+    public @NonNull Mono<Void> reactiveStart() {
         return MonoHelper.toMono(handler -> {
             Promise<Void> startPromise = Promise.promise();
             startPromise.future().onComplete(handler);
@@ -45,18 +45,18 @@ public abstract class AbstractVerticle extends io.vertx.core.AbstractVerticle {
 
     @Override
     public final void stop(Promise<Void> stopFuture) {
-        Mono<Void> mono = rxStop();
+        Mono<Void> mono = reactiveStop();
         mono.subscribe(null, stopFuture::fail, stopFuture::complete);
     }
 
     /**
      * Override to return a {@code Mono} that will complete the undeployment of this verticle.
      * <p/>
-     * Chain with super.rxStart() to execute stop logic from the base class.
+     * Chain with super.reactiveStop() to execute stop logic from the base class.
      *
      * @return mono that completes on the undeployment of this verticle.
      */
-    public @NonNull Mono<Void> rxStop() {
+    public @NonNull Mono<Void> reactiveStop() {
         return MonoHelper.toMono(handler -> {
             Promise<Void> stopPromise = Promise.promise();
             stopPromise.future().onComplete(handler);
