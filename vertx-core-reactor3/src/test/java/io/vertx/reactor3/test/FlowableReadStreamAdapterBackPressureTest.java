@@ -4,7 +4,6 @@ import io.vertx.core.Handler;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.streams.ReadStream;
 import io.vertx.lang.rx.test.TestSubscriber;
-import io.vertx.reactor3.core.FluxHelper;
 import io.vertx.lang.rx.test.ReadStreamAdapterBackPressureTest;
 import io.vertx.test.fakestream.FakeStream;
 import org.junit.Ignore;
@@ -27,12 +26,12 @@ public class FlowableReadStreamAdapterBackPressureTest extends ReadStreamAdapter
 
     @Override
     protected Flux<Buffer> toObservable(ReadStream<Buffer> stream, int maxBufferSize) {
-        return FluxHelper.toFlux(io.vertx.reactor3.core.streams.ReadStream.newInstance(stream));
+        return io.vertx.reactor3.core.streams.ReadStream.<Buffer>newInstance(stream).toFlux();
     }
 
     @Override
     protected Flux<Buffer> toObservable(ReadStream<Buffer> stream) {
-        return FluxHelper.toFlux(io.vertx.reactor3.core.streams.ReadStream.newInstance(stream));
+        return io.vertx.reactor3.core.streams.ReadStream.<Buffer>newInstance(stream).toFlux();
     }
 
     @Override

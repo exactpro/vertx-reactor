@@ -22,7 +22,6 @@ class Reactor3Generator extends AbstractRxGenerator {
 
     @Override
     protected void genImports(ClassModel model, PrintWriter writer) {
-        writer.println("import io.vertx.reactor3.core.FluxHelper;");
         writer.println("import io.vertx.reactor3.core.impl.AsyncResultMono;");
         super.genImports(model, writer);
     }
@@ -168,9 +167,7 @@ class Reactor3Generator extends AbstractRxGenerator {
             writer.print(params.stream().map(ParamInfo::getName).collect(Collectors.joining(", ")));
             writer.println(");");
             writer.println("    ret = ret.cache();");
-            writer.print("    ret.subscribe(io.vertx.reactor3.core.");
-            writer.print(futMethod.getReturnType().getRaw().getSimpleName());
-            writer.println("Helper.nullObserver());");
+            writer.println("    ret.subscribe();");
             writer.println("    return ret;");
             writer.println("  }");
         } else {
@@ -288,11 +285,11 @@ class Reactor3Generator extends AbstractRxGenerator {
             if (type.getKind() == ClassKind.FUTURE) {
                 TypeInfo futType = ((ParameterizedTypeInfo) type).getArg(0);
                 if (futType.getKind() == ClassKind.VOID) {
-                    return "io.vertx.reactor3.core.MonoHelper.toFuture(" + expr + ")";
+                    return "io.vertx.reactor3.core.Reactive.toFuture(" + expr + ")";
                 } else {
                     ParameterizedTypeInfo parameterizedType = (ParameterizedTypeInfo) type;
                     String adapterFunction = "obj -> " + genConvParam(parameterizedType.getArg(0), method, "obj");
-                    return "io.vertx.reactor3.core.MonoHelper.toFuture(" + expr + ", " + adapterFunction + ")";
+                    return "io.vertx.reactor3.core.Reactive.toFuture(" + expr + ".map(" + adapterFunction + "))";
                 }
             }
         }

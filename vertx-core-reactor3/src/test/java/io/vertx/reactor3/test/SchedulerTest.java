@@ -4,7 +4,7 @@ import io.vertx.core.Context;
 import io.vertx.core.Vertx;
 import io.vertx.core.WorkerExecutor;
 import io.vertx.reactor3.core.ContextScheduler;
-import io.vertx.reactor3.core.RxHelper;
+import io.vertx.reactor3.core.Reactive;
 import io.vertx.test.core.VertxTestBase;
 import org.junit.Test;
 import reactor.core.Disposable;
@@ -386,7 +386,7 @@ public class SchedulerTest extends VertxTestBase {
 
     @Test
     public void testRemovedFromContextAfterRun() throws Exception {
-        ContextScheduler scheduler = (ContextScheduler) RxHelper.blockingScheduler(vertx);
+        ContextScheduler scheduler = (ContextScheduler) Reactive.blockingScheduler(vertx);
         ContextScheduler.ContextWorker worker = scheduler.createWorker();
         CountDownLatch latch = new CountDownLatch(1);
         worker.schedule(latch::countDown);
@@ -396,7 +396,7 @@ public class SchedulerTest extends VertxTestBase {
 
     @Test
     public void testRemovedFromContextAfterDelay() throws Exception {
-        ContextScheduler scheduler = (ContextScheduler) RxHelper.blockingScheduler(vertx);
+        ContextScheduler scheduler = (ContextScheduler) Reactive.blockingScheduler(vertx);
         ContextScheduler.ContextWorker worker = scheduler.createWorker();
         CountDownLatch latch = new CountDownLatch(1);
         worker.schedule(latch::countDown, 10, MILLISECONDS);
@@ -406,7 +406,7 @@ public class SchedulerTest extends VertxTestBase {
 
     @Test
     public void testUnsubscribePeriodicInTask() throws Exception {
-        ContextScheduler scheduler = (ContextScheduler) RxHelper.blockingScheduler(vertx);
+        ContextScheduler scheduler = (ContextScheduler) Reactive.blockingScheduler(vertx);
         ContextScheduler.ContextWorker worker = scheduler.createWorker();
         CountDownLatch latch = new CountDownLatch(1);
         AtomicReference<Disposable> ref = new AtomicReference<>();
@@ -426,7 +426,7 @@ public class SchedulerTest extends VertxTestBase {
     // TODO Understand the original test
     public void testTimeoutDoesNotFireAfterSubscriptionIsDisposed() throws Exception {
         CountDownLatch latch = new CountDownLatch(2);
-        Scheduler scheduler = RxHelper.scheduler(vertx);
+        Scheduler scheduler = Reactive.scheduler(vertx);
         Flux.fromArray(new String[]{"tick", "tick", "tick", "tick"})
             .timeout(Duration.ofMillis(500), scheduler)
             .doOnError(t -> latch.countDown())

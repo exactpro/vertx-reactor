@@ -32,7 +32,7 @@ public abstract class AbstractVerticle extends io.vertx.core.AbstractVerticle {
      * @return mono that completes on the deployment of this verticle.
      */
     public @NonNull Mono<Void> reactiveStart() {
-        return MonoHelper.toMono(handler -> {
+        return Reactive.toMono(handler -> {
             Promise<Void> startPromise = Promise.promise();
             startPromise.future().onComplete(handler);
             try {
@@ -57,7 +57,7 @@ public abstract class AbstractVerticle extends io.vertx.core.AbstractVerticle {
      * @return mono that completes on the undeployment of this verticle.
      */
     public @NonNull Mono<Void> reactiveStop() {
-        return MonoHelper.toMono(handler -> {
+        return Reactive.toMono(handler -> {
             Promise<Void> stopPromise = Promise.promise();
             stopPromise.future().onComplete(handler);
             try {
