@@ -61,13 +61,16 @@ tasks {
     val extractVertxSources = register<Copy>("extractVertxSources") {
         from(zipTree(vertxSources.jarFile(vertxModuleName, "sources"))) {
             includeEmptyDirs = false
-            include("io/vertx/**/*.java", "examples/**/*.java")
+            include(
+                "io/vertx/**/*.java",
+//                "examples/**/*.java",
+            )
             exclude(
                 "**/impl/**/*.java",
                 "io/vertx/groovy/**",
                 "io/vertx/reactivex/**",
                 "io/vertx/rxjava/**",
-                "examples/override/**",
+//                "examples/override/**",
                 "io/vertx/ext/sql/**",
                 "io/vertx/ext/jdbc/**",
                 "io/vertx/servicediscovery/types/JDBCDataSource.java",

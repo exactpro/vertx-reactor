@@ -7,8 +7,17 @@ plugins {
 val vertxVersion by ext("4.5.11")
 val reactorVersion by ext("2024.0.1")
 
+// This version should be synchronized with vertx.
+// TODO  It's present in vert bom but only for test scope. It may be possible to get it from there.
+val junitVersion by ext("4.13.1")
+
+// Transitive dependency declared as optional in vertx-micrometer-metrics, and used in @GenIgnore API
+val micrometerVersion by ext("1.12.12")
+
 val vertxModules: Set<String> =
-    project.file("vertx.modules").useLines { lines -> lines.filter { it.isNotBlank() }.toSet() }
+    project.file("vertx.modules").useLines {
+        lines -> lines.map { it.substringBefore("#").trim() }.filter { it.isNotEmpty() }.toSet()
+    }
 
 project.subprojects {
     apply(plugin = "java-library")
