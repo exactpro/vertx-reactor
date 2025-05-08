@@ -28,21 +28,20 @@ sourceSets {
     }
 }
 
+val codegenCompileOnly: Configuration by configurations.getting {
+    extendsFrom(configurations.compileOnly.get())
+}
+
+val codegenImplementation: Configuration by configurations.getting {
+    extendsFrom(configurations.implementation.get())
+}
+
 dependencies {
     "codegenAnnotationProcessor"(project(":reactor3-gen"))
 
-    "codegenImplementation"(platform("io.vertx:vertx-dependencies:$vertxVersion"))
-    "codegenImplementation"(platform("io.projectreactor:reactor-bom:$reactorVersion"))
-    "codegenImplementation"("io.vertx:vertx-codegen")
-    "codegenImplementation"("io.vertx:vertx-docgen")
-    "codegenImplementation"("io.vertx:vertx-rx-gen:$vertxVersion")
-    "codegenImplementation"("io.vertx:$vertxModuleName") {
-        isTransitive = true
-        exclude("io.vertx", vertxModuleName)
-    }
-    if (project.name != "vertx-core-reactor3") {
-        "codegenImplementation"(project(":vertx-core-reactor3", "default"))
-    }
+    codegenImplementation("io.vertx:vertx-codegen")
+    codegenImplementation("io.vertx:vertx-docgen")
+    codegenImplementation("io.vertx:vertx-rx-gen:$vertxVersion")
 
     implementation(platform("io.vertx:vertx-dependencies:$vertxVersion"))
     implementation(platform("io.projectreactor:reactor-bom:$reactorVersion"))
