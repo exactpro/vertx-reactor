@@ -16,6 +16,7 @@ vertx-cassandra-client
 vertx-circuit-breaker
 vertx-config
 vertx-consul-client
+vertx-core
 vertx-db2-client
 vertx-dropwizard-metrics
 # vertx-grpc-client

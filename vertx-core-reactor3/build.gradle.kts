@@ -1,9 +1,5 @@
 import com.exactpro.build.jarFile
 
-plugins {
-    id("com.exactpro.build.reactor3-bindings")
-}
-
 val vertxVersion: String by rootProject.ext
 val vertxSources: Configuration by configurations.getting
 val buildDirectory = project.layout.buildDirectory
