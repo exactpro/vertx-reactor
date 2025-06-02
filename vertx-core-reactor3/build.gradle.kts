@@ -25,9 +25,7 @@ dependencies {
     codegenImplementation("org.apache.logging.log4j:log4j-core")
     codegenImplementation("org.slf4j:slf4j-api")
 
-    implementation("io.projectreactor:reactor-core")
     implementation("io.vertx:vertx-docgen")
-    implementation("io.vertx:vertx-rx-gen:$vertxVersion")
 
     testAnnotationProcessor(project(":reactor3-gen"))
     testImplementation("io.projectreactor:reactor-test")

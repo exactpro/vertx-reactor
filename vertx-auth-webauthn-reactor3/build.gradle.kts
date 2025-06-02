@@ -1,3 +1,3 @@
 dependencies {
-    implementation(project(":vertx-auth-common-reactor3"))
+    api(project(":vertx-auth-common-reactor3"))
 }

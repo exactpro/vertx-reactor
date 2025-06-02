@@ -1,3 +1,4 @@
 dependencies {
-    implementation(project(":vertx-web-reactor3", "default"))
+    implementation(project(":vertx-web-reactor3"))
+    implementation("io.vertx:vertx-web")
 }

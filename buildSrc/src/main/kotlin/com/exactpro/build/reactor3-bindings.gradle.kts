@@ -45,9 +45,11 @@ dependencies {
 
     implementation(platform("io.vertx:vertx-dependencies:$vertxVersion"))
     implementation(platform("io.projectreactor:reactor-bom:$reactorVersion"))
+    implementation("io.projectreactor:reactor-core")
     implementation("io.vertx:$vertxModuleName")
+    implementation("io.vertx:vertx-rx-gen:$vertxVersion")
     if (project.name != "vertx-core-reactor3") {
-        implementation(project(":vertx-core-reactor3", "default"))
+        implementation(project(":vertx-core-reactor3"))
     }
 
     testImplementation("io.vertx:vertx-core::tests")
