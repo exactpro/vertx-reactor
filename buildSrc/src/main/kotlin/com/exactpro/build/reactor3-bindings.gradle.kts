@@ -37,6 +37,10 @@ val codegenImplementation: Configuration by configurations.getting {
     extendsFrom(configurations.implementation.get())
 }
 
+java {
+    withSourcesJar()
+}
+
 dependencies {
     "codegenAnnotationProcessor"(project(":reactor3-gen"))
 
@@ -57,6 +61,25 @@ dependencies {
     testImplementation("junit:junit")
 
     vertxSources("io.vertx:$vertxModuleName:$vertxVersion:sources")
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("javaLibrary") {
+            from(components["java"])
+        }
+    }
+
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/exactpro/vertx-reactor")
+            credentials {
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
 }
 
 tasks {
@@ -94,27 +117,8 @@ tasks {
     compileJava {
         dependsOn("compileCodegenJava")
     }
-}
 
-java {
-    withSourcesJar()
-}
-
-publishing {
-    publications {
-        create<MavenPublication>("javaLibrary") {
-            from(components["java"])
-        }
-    }
-
-    repositories {
-        maven {
-            name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/exactpro/vertx-reactor")
-            credentials {
-                username = System.getenv("GITHUB_ACTOR")
-                password = System.getenv("GITHUB_TOKEN")
-            }
-        }
+    named("sourcesJar") {
+        dependsOn("compileCodegenJava")
     }
 }
