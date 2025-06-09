@@ -3,9 +3,11 @@ package com.exactpro.build
 import org.gradle.api.artifacts.Configuration
 import org.gradle.api.tasks.Copy
 import org.gradle.kotlin.dsl.*
+import java.net.URI
 
 plugins {
-    java
+    `java-library`
+    `maven-publish`
 }
 
 val vertxVersion: String by rootProject.ext
@@ -92,5 +94,18 @@ tasks {
 
     compileJava {
         dependsOn("compileCodegenJava")
+    }
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = URI("https://maven.pkg.github.com/exactpro/vertx-reactor")
+            credentials {
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GITHUB_TOKEN")
+            }
+        }
     }
 }
